@@ -7,6 +7,7 @@ import {
   div,
   if_then,
   when,
+  br,
 } from "./solid_monke.js";
 
 const variable = sig(["hello"]);
@@ -22,18 +23,25 @@ document.addEventListener("mousemove", (event) => {
 const Test = () => {
   return div(
     { onclick: () => variable.set([...variable.is(), "hello"]) },
+
     "mouse: ", mouse_x.is, " x  ", mouse_y.is, " y  ",
-    count,
-    () => every(variable.is(), (item, i) => div(item, " ", i())),
+    br(),
 
-    () => if_then(
-      { if: count() === 1, then: div("one") },
-      [count() === 2, div("two #3")],
-      { if: count() === 3, then: div("three") },
-    ),
+    "count is: ", count,
+    _ => every(variable.is(), (item, i) => div(item, " ", i())),
+    Switcher,
 
-    () => when(count, [7, div("its seven now")]),
+    _ => when(count(), [7, div("its seven now")]),
   );
 };
+
+const Switcher = () => {
+  return if_then(
+    { if: count() === 1, then: div("one") },
+    [count() === 2, div("two #3")],
+    { if: count() === 3, then: div("three") },
+  )
+
+}
 
 render(Test, $("#root"));

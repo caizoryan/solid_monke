@@ -99,6 +99,7 @@ const when = (condition, ...etc) => {
 // over JSX... why mix html and javascript syntactically like that?
 const div = (...args) => h("div", ...args);
 const span = (...args) => h("span", ...args);
+const br = (...args) => h("br", ...args);
 
 const p = (...args) => h("p", ...args);
 const a = (...args) => h("a", ...args);
@@ -121,7 +122,7 @@ export {
   render,
   h, sig, mem,
   eff, eff_on, every, if_then,
-  when, div, span, p, a, h1, h2, h3, h4, $,
+  when, div, span, p, a, h1, h2, h3, h4, br, $,
   dukan, prod, hogaya, simple_dukan
 }
 
