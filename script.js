@@ -3,7 +3,7 @@ import {
   render,
   sig,
   mem,
-  every,
+  each,
   div,
   if_then,
   when,
@@ -28,7 +28,7 @@ const Test = () => {
     br(),
 
     "count is: ", count,
-    _ => every(variable.is(), (item, i) => div(item, " ", i())),
+    _ => each(variable.is(), (item, i) => div(item, " ", i())),
     Switcher,
 
     _ => when(count(), [7, div("its seven now")]),
