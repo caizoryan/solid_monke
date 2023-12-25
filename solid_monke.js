@@ -145,6 +145,8 @@ const h2 = (...args) => h("h2", ...args);
 const h3 = (...args) => h("h3", ...args);
 const h4 = (...args) => h("h4", ...args);
 
+const button = (click, ...args) => h("button", combined({ onclick: click }, ...args), ...args);
+
 // this just cuz jquery is king
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
@@ -162,7 +164,7 @@ export {
   render,
   h, sig, mem,
   eff, eff_on, each, if_then,
-  when, div, span, p, a, h1, h2, h3, h4, br, $, $$,
+  when, div, span, p, a, h1, h2, h3, h4, br, $, $$, button,
   img, video,
   dukan, prod, hogaya, simple_dukan,
   inn, every,
