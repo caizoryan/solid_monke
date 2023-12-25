@@ -146,6 +146,8 @@ const h3 = (...args) => h("h3", ...args);
 const h4 = (...args) => h("h4", ...args);
 
 const button = (click, ...args) => h("button", combined({ onclick: click }, ...args), ...args);
+const slider = (change, ...args) => h("input", combined({ type: "range", oninput: change }, ...args), ...args);
+const monke_slider = (setter, [min, max], ...args) => h("input", combined({ type: "range", min, max, oninput: (e) => setter.set(e.target.value), value: setter.is }, ...args), ...args);
 
 // this just cuz jquery is king
 const $ = (selector) => document.querySelector(selector);
@@ -165,6 +167,7 @@ export {
   h, sig, mem,
   eff, eff_on, each, if_then,
   when, div, span, p, a, h1, h2, h3, h4, br, $, $$, button,
+  slider, monke_slider,
   img, video,
   dukan, prod, hogaya, simple_dukan,
   inn, every,
