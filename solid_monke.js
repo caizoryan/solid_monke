@@ -23,20 +23,18 @@
  *
  */
 
-import h from "./h/h.js";
 import {
+  h,
   For,
   createSignal,
   createMemo,
   createEffect,
   on,
   Switch,
-  Show,
   onMount,
-} from "./solid.js";
-import { render, renderToString } from "./web/web.js";
-import { createStore, produce, createMutable } from "./store/store.js";
-
+  createStore, produce, createMutable,
+  render, renderToString
+} from "./mini-solid.js";
 
 // The core, the heart and the soul
 
@@ -48,10 +46,8 @@ import { createStore, produce, createMutable } from "./store/store.js";
  */
 const sig = (val) => {
   const [getter, setter] = createSignal(val);
-  return {
-    is: getter,
-    set: setter,
-  };
+  getter.set = setter;
+  return getter;
 };
 
 // Dependent Reactivity
@@ -77,11 +73,11 @@ const eff = callback => createEffect(callback);
  * @param {Function} callback - The callback function to invoke.
  * @returns {void}
  */
-const eff_on = (dep, callback) => eff(on(dep, callback));
+const eff_on = (dep, callback) => eff(on(typeof dep === "function" ? dep : () => dep, callback));
 
 // Rendering Control Flow,
 // Essentially the for loop —> but for rendering (keyed) 
-const each = (dep, children) => For({ each: dep, children });
+const each = (dep, children) => () => For({ each: typeof dep === "function" ? dep() : (() => dep)(), children });
 
 // The switch statement for rendering
 /**
@@ -139,6 +135,7 @@ const p = (...args) => h("p", ...args);
 const a = (link, ...args) => h("a", combined({ href: link, target: "_blank" }, ...args), ...args)
 const img = (link, ...args) => h("img", combined({ src: link }, ...args), ...args)
 const video = (link, ...args) => h("video", { controls: true, height: "90%" }, h("source", ({ src: link }), ...args), ...args)
+const button = (...args) => h("button", ...args);
 
 const h1 = (...args) => h("h1", ...args);
 const h2 = (...args) => h("h2", ...args);
@@ -156,8 +153,8 @@ const $$ = (selector) => document.querySelectorAll(selector);
 // This is utilities for larger reactive structures 
 const dukan = createStore;
 const prod = produce;
-const hogaya = onMount;
-const simple_dukan = createMutable;
+const mounted = onMount;
+const mut = createMutable;
 
 const inn = (time, callback) => setTimeout(callback, time)
 const every = (time, callback) => setInterval(callback, time)
@@ -165,11 +162,16 @@ const every = (time, callback) => setInterval(callback, time)
 export {
   render,
   h, sig, mem,
+<<<<<<< HEAD
+  eff, eff_on, each, if_then, button,
+  when, div, span, p, a, h1, h2, h3, h4, br, $, $$,
+=======
   eff, eff_on, each, if_then,
   when, div, span, p, a, h1, h2, h3, h4, br, $, $$, button,
   slider, monke_slider,
+>>>>>>> 37095c596f8131dba39ad934d40e577008cbf3b2
   img, video,
-  dukan, prod, hogaya, simple_dukan,
+  dukan, prod, mounted, mut,
   inn, every,
   renderToString as render_to_string
 }
